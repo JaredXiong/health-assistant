@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // 3. 执行更新
-        userMapper.update(user);
+        userMapper.updateById(user);
         log.info("用户 {} 信息更新成功", userId);
     }
 }

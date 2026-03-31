@@ -150,7 +150,7 @@ public class UserMedicineServiceImpl implements UserMedicineService {
             existing.setStatus(dto.getStatus());
         }
 
-        userMedicineMapper.update(existing);
+        userMedicineMapper.updateById(existing);
         log.info("用户药品更新成功，ID：{}", userMedicineId);
     }
 
@@ -215,7 +215,7 @@ public class UserMedicineServiceImpl implements UserMedicineService {
         // 提醒启用状态默认 false，由用户后续自行开启
         existing.setReminderEnabled(false);
 
-        userMedicineMapper.update(existing);
+        userMedicineMapper.updateById(existing);
         log.info("药品激活成功，ID：{}", userMedicineId);
     }
 

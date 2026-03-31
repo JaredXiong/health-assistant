@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/java/com/healthy/mapper/ConversationMapper.java" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/java/com/healthy/mapper/DataAuthorizationMapper.java" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/java/com/healthy/mapper/FamilyMapper.java" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/java/com/healthy/mapper/FamilyMemberMapper.java" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/java/com/healthy/mapper/PrescriptionItemMapper.java" value="2c77b377-946a-4855-a9ad-937d0316629d" />
     <file url="file://$PROJECT_DIR$/addDate.sql" value="2c77b377-946a-4855-a9ad-937d0316629d" />
   </component>
 </project>

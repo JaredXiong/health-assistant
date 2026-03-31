@@ -60,7 +60,7 @@ public class MedicineServiceImpl implements MedicineService {
             log.error("OCR识别失败", e);
             record.setStatus(2);
             record.setOcrRawResult(e.getMessage());
-            imageRecordMapper.update(record);
+            imageRecordMapper.updateById(record);
             throw new RuntimeException("OCR识别失败", e);
         }
 
@@ -75,31 +75,8 @@ public class MedicineServiceImpl implements MedicineService {
         record.setAdverseReactions(ocrResult.getAdverseReactions());
         record.setPrecautions(ocrResult.getPrecautions());
         record.setContraindications(ocrResult.getContraindications());
-        imageRecordMapper.update(record);
+        imageRecordMapper.updateById(record);
         log.info("OCR识别成功，记录已更新");
-
-//        // 药品信息去重入库
-//        if (ocrResult.getMedicineName() != null && !ocrResult.getMedicineName().isEmpty()) {
-//            MedicineInfo exist = medicineInfoMapper.selectByNameAndApproval(
-//                    ocrResult.getMedicineName(), ocrResult.getApprovalNumber());
-//            if (exist == null) {
-//                MedicineInfo info = new MedicineInfo();
-//                info.setName(ocrResult.getMedicineName());
-//                info.setSpecification(ocrResult.getSpecification());
-//                info.setManufacturer(ocrResult.getManufacturer());
-//                info.setApprovalNumber(ocrResult.getApprovalNumber());
-//                info.setUsageDosage(ocrResult.getUsageDosage());
-//                info.setIngredients(ocrResult.getIngredients());
-//                info.setIndications(ocrResult.getIndications());
-//                info.setAdverseReactions(ocrResult.getAdverseReactions());
-//                info.setPrecautions(ocrResult.getPrecautions());
-//                info.setContraindications(ocrResult.getContraindications());
-//                medicineInfoMapper.insert(info);
-//                log.info("药品信息入库，ID：{}", info.getId());
-//            } else {
-//                log.info("药品已存在，ID：{}", exist.getId());
-//            }
-//        }
 
         // 药品信息去重入库
         if (ocrResult.getMedicineName() != null && !ocrResult.getMedicineName().isEmpty()) {

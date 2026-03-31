@@ -31,8 +31,8 @@ public class ReminderServiceImpl implements ReminderService {
     private final ReminderMapper reminderMapper;
     private final UserMapper userMapper;          // 新增注入
     private final WechatService wechatService;    // 原有
-    private final UserMedicineMapper userMedicineMapper;    // 新增
-    private final MedicineInfoMapper medicineInfoMapper;     // 新增
+    private final UserMedicineMapper userMedicineMapper;
+    private final MedicineInfoMapper medicineInfoMapper;
 
     @Override
     @Transactional
@@ -66,7 +66,7 @@ public class ReminderServiceImpl implements ReminderService {
 
         // 4. 更新药品提醒启用标志
         userMedicine.setReminderEnabled(true);
-        userMedicineMapper.update(userMedicine);
+        userMedicineMapper.updateById(userMedicine);
 
         log.info("为药品ID {} 设置了 {} 个提醒", dto.getUserMedicineId(), dto.getReminderTimes().size());
     }
@@ -127,7 +127,7 @@ public class ReminderServiceImpl implements ReminderService {
         reminder.setStartDate(dto.getStartDate());
         reminder.setEndDate(dto.getEndDate());
         reminder.setStatus(0);
-        reminderMapper.update(reminder);
+        reminderMapper.updateById(reminder);
     }
 
     @Override
@@ -160,6 +160,6 @@ public class ReminderServiceImpl implements ReminderService {
 
         // 4. 更新用户药品提醒启用状态
         userMedicine.setReminderEnabled(true);
-        userMedicineMapper.update(userMedicine);
+        userMedicineMapper.updateById(userMedicine);
     }
 }

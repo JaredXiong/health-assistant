@@ -1,10 +1,13 @@
 package com.healthy.entity;
 
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
+@TableName("medicine_image_record")
 public class MedicineImageRecord {
+    @TableId(type = IdType.AUTO)
     private Long id;
     private Long userId;
     private String imageUrl;

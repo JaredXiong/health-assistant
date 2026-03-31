@@ -363,7 +363,7 @@ HealthAssistant/
     │       ├── UserMapper.xml                # 用户映射
     │       └── UserMedicineMapper.xml        # 用户药品映射
     └── src/test/java/com/healthy/            # 测试代码
-        └── PollutionServerApplicationTests.java # 应用测试类
+        └── HealthAssistantApplicationTests.java # 应用测试类
 ```
 
 ### 目录结构详细说明
@@ -463,7 +463,6 @@ HealthAssistant/
 | **AI 服务** | DeepSeek API | - | 智能对话 |
 | **OCR 识别** | 百度 AI SDK | 4.16.3 | 药品识别 |
 | **API 文档** | Knife4j | 3.0.2 | 接口文档 |
-| **深度学习** | DeepLearning4J | 1.0.0-M2.1 | 数据分析 |
 | **Excel 处理** | Apache POI | 3.14 | 报表导出 |
 | **实时通信** | WebSocket | - | AI 聊天 |
 | **工具类** | Lombok | 1.18.30 | 代码简化 |

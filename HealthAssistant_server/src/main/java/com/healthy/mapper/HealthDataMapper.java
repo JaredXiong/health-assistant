@@ -1,17 +1,13 @@
 package com.healthy.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.healthy.entity.HealthData;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Mapper
-public interface HealthDataMapper {
-    int insert(HealthData healthData);
-
-    HealthData selectById(Long id);
+public interface HealthDataMapper extends BaseMapper<HealthData> {
 
     List<HealthData> selectByUserId(@Param("userId") Long userId,
                                     @Param("startTime") LocalDateTime startTime,

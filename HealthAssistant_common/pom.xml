@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    HealthAssistant_common 公共模块
+    功能：提供通用工具类、常量、异常处理、配置属性等
+    注意：本模块依赖pojo模块，因为部分工具类需要使用实体类
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>HealthAssistant</artifactId>
+        <groupId>com.smart</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>HealthAssistant_common</artifactId>
+    <name>HealthAssistant_common</name>
+    <description>健康管理助手 - 公共工具模块</description>
+    
+    <dependencies>
+        <!-- ==================== 内部模块依赖 ==================== -->
+        <!-- 依赖pojo模块，因为部分工具类需要使用实体类 -->
+        <dependency>
+            <groupId>com.smart</groupId>
+            <artifactId>HealthAssistant_pojo</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
+        <!-- ==================== Spring Boot相关 ==================== -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
+        </dependency>
+        <!-- 配置属性处理器，支持yml文件中配置项提示 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        
+        <!-- ==================== 工具库 ==================== -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        
+        <!-- ==================== JWT认证 ==================== -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+        
+        <!-- ==================== 阿里云服务 ==================== -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+        </dependency>
+        
+        <!-- ==================== 其他工具 ==================== -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+    </dependencies>
+</project>

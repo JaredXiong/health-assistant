@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.healthy.mapper.MedicineInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.healthy.entity.MedicineInfo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="specification" column="specification"/>
+        <result property="manufacturer" column="manufacturer"/>
+        <result property="approvalNumber" column="approval_number"/>
+        <result property="usageDosage" column="usage_dosage"/>
+        <result property="ingredients" column="ingredients"/>
+        <result property="indications" column="indications"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.healthy.entity.MedicineInfo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO medicine_info (
+            name, specification, manufacturer, approval_number, usage_dosage,
+            ingredients, indications, adverse_reactions, precautions, contraindications
+        ) VALUES (
+                     #{name}, #{specification}, #{manufacturer}, #{approvalNumber}, #{usageDosage},
+                     #{ingredients}, #{indications}, #{adverseReactions}, #{precautions}, #{contraindications}
+                 )
+    </insert>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM medicine_info WHERE id = #{id}
+    </select>
+
+    <select id="selectByNameAndApproval" resultMap="BaseResultMap">
+        SELECT * FROM medicine_info
+        WHERE name = #{name} AND approval_number = #{approvalNumber}
+            LIMIT 1
+    </select>
+
+</mapper>

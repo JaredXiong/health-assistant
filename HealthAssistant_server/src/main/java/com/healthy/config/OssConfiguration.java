@@ -1,0 +1,20 @@
+package com.healthy.config;
+
+import com.healthy.properties.AliOssProperties;
+import com.healthy.utils.AliOssUtil;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class OssConfiguration {
+
+    @Bean
+    public AliOssUtil aliOssUtil(AliOssProperties aliOssProperties) {
+        return new AliOssUtil(
+                aliOssProperties.getEndpoint(),
+                aliOssProperties.getAccessKeyId(),
+                aliOssProperties.getAccessKeySecret(),
+                aliOssProperties.getBucketName()
+        );
+    }
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.healthy.mapper.UserMapper">
+
+    <resultMap id="UserResultMap" type="com.healthy.entity.Users">
+        <id property="id" column="id"/>
+        <result property="openid" column="openid"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="nickname" column="nickname"/>
+    </resultMap>
+
+    <select id="getByOpenid" resultMap="UserResultMap">
+        SELECT * FROM users WHERE openid = #{openid}
+    </select>
+
+    <select id="getById" resultMap="UserResultMap">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.healthy.entity.Users"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (openid, nickname, name, phone)
+        VALUES (#{openid}, #{nickname}, #{name}, #{phone})
+    </insert>
+
+    <update id="update" parameterType="com.healthy.entity.Users">
+        UPDATE users
+        SET name = #{name}, phone = #{phone}, nickname = #{nickname}, avatar_url = #{avatarUrl}
+        WHERE id = #{id}
+    </update>
+</mapper>

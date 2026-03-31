@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    HealthAssistant 健康助手项目父POM
+    项目描述：基于Spring Boot的健康管理平台
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <!-- Spring Boot父项目 -->
+    <parent>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>2.7.3</version>
+    </parent>
+    
+    <!-- 项目基本信息 -->
+    <groupId>com.smart</groupId>
+    <artifactId>HealthAssistant</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>HealthAssistant</name>
+    <description>健康管理助手平台 - 多模块Maven项目</description>
+    
+    <!-- 子模块 -->
+    <modules>
+        <module>HealthAssistant_common</module>
+        <module>HealthAssistant_pojo</module>
+        <module>HealthAssistant_server</module>
+    </modules>
+    
+    <!-- 统一属性配置 -->
+    <properties>
+        <!-- 编译配置 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        
+        <!-- 框架版本 -->
+        <mybatis.spring>2.2.0</mybatis.spring>
+        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+        <druid.version>1.2.12</druid.version>
+        
+        <!-- 工具库版本 -->
+        <lombok>1.18.30</lombok>
+        <fastjson>1.2.76</fastjson>
+        <commons.lang>2.6</commons.lang>
+        
+        <!-- 第三方服务版本 -->
+        <aliyun.sdk.oss>3.10.2</aliyun.sdk.oss>
+        <knife4j>3.0.2</knife4j>
+        <baidu.aip.version>4.16.3</baidu.aip.version>
+        
+        <!-- AOP版本 -->
+        <aspectj>1.9.4</aspectj>
+        
+        <!-- JWT版本 -->
+        <jjwt>0.9.1</jjwt>
+        
+        <!-- 其他工具版本 -->
+        <jaxb-api>2.3.1</jaxb-api>
+        <poi>3.14</poi>
+        
+        <!-- AI/机器学习版本 -->
+        <nd4j.version>1.0.0-M2.1</nd4j.version>
+        <deeplearning4j.version>1.0.0-M2.1</deeplearning4j.version>
+    </properties>
+    <!-- 依赖版本管理 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- ==================== Spring Boot相关 ==================== -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.spring}</version>
+            </dependency>
+            
+            <!-- ==================== 持久层框架 ==================== -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            
+            <!-- ==================== 工具库 ==================== -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons.lang}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.36</version>
+            </dependency>
+            
+            <!-- ==================== API文档 ==================== -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j}</version>
+            </dependency>
+            
+            <!-- ==================== AOP切面 ==================== -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj}</version>
+            </dependency>
+            
+            <!-- ==================== JWT认证 ==================== -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt}</version>
+            </dependency>
+            
+            <!-- ==================== 阿里云服务 ==================== -->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun.sdk.oss}</version>
+            </dependency>
+            
+            <!-- ==================== 百度AI ==================== -->
+            <dependency>
+                <groupId>com.baidu.aip</groupId>
+                <artifactId>java-sdk</artifactId>
+                <version>${baidu.aip.version}</version>
+            </dependency>
+            
+            <!-- ==================== 其他工具 ==================== -->
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${jaxb-api}</version>
+            </dependency>
+            
+            <!-- ==================== POI文档处理 ==================== -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi}</version>
+            </dependency>
+            
+            <!-- ==================== 机器学习/AI ==================== -->
+            <dependency>
+                <groupId>org.nd4j</groupId>
+                <artifactId>nd4j-native-platform</artifactId>
+                <version>${nd4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.deeplearning4j</groupId>
+                <artifactId>deeplearning4j-core</artifactId>
+                <version>${deeplearning4j.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
+    <!-- 构建配置 -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

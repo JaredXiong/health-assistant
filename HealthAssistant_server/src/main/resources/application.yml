@@ -1,0 +1,59 @@
+server:
+  port: 8080
+  # 添加Tomcat配置，解决文件上传大小限制问题
+  tomcat:
+    max-swallow-size: -1  # 取消Tomcat的请求体大小限制（-1表示无限制）
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    druid:
+      driver-class-name: ${sky.datasource.driver-class-name}
+      url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${sky.datasource.username}
+      password: ${sky.datasource.password}
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      # 启用文件上传支持（默认开启）
+      enabled: true
+      # 单个文件的最大大小
+      max-file-size: 10MB
+      # 单次请求的总文件大小
+      max-request-size: 20MB
+      # 文件写入磁盘的阈值，小于此值先存内存，大于此值直接写磁盘
+      file-size-threshold: 2KB
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.healthy.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.healthy: DEBUG
+    org.springframework.web: INFO
+
+# JWT配置
+sky:
+  jwt:
+    # 用户端微信用户生成jwt令牌相关配置
+    user-secret-key: healthy-assistant-jwt-secret-key-2024
+    user-ttl: 7200000  # 2小时
+    user-token-name: token
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.healthy.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0

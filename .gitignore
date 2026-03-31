@@ -1,0 +1,24 @@
+# 排除配置文件
+**/application-dev.yml
+# 编译输出目录
+target/
+**/target/
+# 日志文件
+logs/
+**/logs/
+# 临时文件
+*.tmp
+*.temp
+# 环境变量文件
+.env
+.env.local
+.env.*.local
+# IDE配置文件
+.vscode/
+.settings/
+# 测试报告
+test-results/
+# 其他临时文件
+*.swp
+*.swo
+*~

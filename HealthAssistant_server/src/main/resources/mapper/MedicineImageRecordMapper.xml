@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.healthy.mapper.MedicineImageRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.healthy.entity.MedicineImageRecord">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="ocrRawResult" column="ocr_raw_result"/>
+        <result property="parsedInfo" column="parsed_info"/>
+        <result property="status" column="status"/>
+        <result property="ingredients" column="ingredients"/>
+        <result property="indications" column="indications"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.healthy.entity.MedicineImageRecord" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO medicine_image_record (
+            user_id, image_url, ocr_raw_result, parsed_info, status,
+            ingredients, indications, adverse_reactions, precautions, contraindications
+        ) VALUES (
+                     #{userId}, #{imageUrl}, #{ocrRawResult}, #{parsedInfo}, #{status},
+                     #{ingredients}, #{indications}, #{adverseReactions}, #{precautions}, #{contraindications}
+                 )
+    </insert>
+
+    <update id="update" parameterType="com.healthy.entity.MedicineImageRecord">
+        UPDATE medicine_image_record
+        SET
+            ocr_raw_result = #{ocrRawResult},
+            parsed_info = #{parsedInfo},
+            status = #{status},
+            ingredients = #{ingredients},
+            indications = #{indications},
+            adverse_reactions = #{adverseReactions},
+            precautions = #{precautions},
+            contraindications = #{contraindications}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM medicine_image_record WHERE id = #{id}
+    </select>
+
+</mapper>

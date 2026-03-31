@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.healthy.mapper.PrescriptionItemMapper">
+
+    <!-- 统计用户最常见的药品 -->
+    <select id="getCommonMedicines" resultType="java.util.Map">
+        SELECT medicine_name, COUNT(*) as count
+        FROM prescription_items
+        WHERE record_id IN (
+            SELECT id FROM prescription_records WHERE user_id = #{userId}
+            )
+        GROUP BY medicine_name
+        ORDER BY count DESC
+            LIMIT 5
+    </select>
+
+</mapper>

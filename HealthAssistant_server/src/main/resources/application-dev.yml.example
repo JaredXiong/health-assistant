@@ -1,0 +1,36 @@
+sky:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: health_assistant
+    username: your_username
+    password: your_password
+
+  # Redis配置
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+
+  wechat:
+    appid: your_wechat_appid
+    secret: your_wechat_secret
+    template-id: your_template_id
+
+  alioss:
+    endpoint: your_oss_endpoint
+    access-key-id: your_access_key_id
+    access-key-secret: your_access_key_secret
+    bucket-name: your_bucket_name
+
+ocr:
+  baidu:
+    app-id: your_baidu_app_id
+    api-key: your_baidu_api_key
+    secret-key: your_baidu_secret_key
+
+deepseek:
+  api-key: your_deepseek_api_key
+  url: https://api.deepseek.com/v1/chat/completions
+  model: deepseek-chat

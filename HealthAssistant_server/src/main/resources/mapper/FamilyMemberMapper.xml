@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.healthy.mapper.FamilyMemberMapper">
+
+    <resultMap id="BaseResultMap" type="com.healthy.entity.FamilyMember">
+        <id property="id" column="id"/>
+        <result property="familyId" column="family_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="role" column="role"/>
+        <result property="relation" column="relation"/>
+        <result property="joinedAt" column="joined_at"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <!-- 根据家庭ID查询活跃成员 -->
+    <select id="selectActiveByFamilyId" resultMap="BaseResultMap">
+        SELECT * FROM family_member
+        WHERE family_id = #{familyId}
+          AND status = 1
+    </select>
+
+    <!-- 根据用户ID查询活跃成员 -->
+    <select id="selectActiveByUserId" resultMap="BaseResultMap">
+        SELECT * FROM family_member
+        WHERE user_id = #{userId}
+          AND status = 1
+            LIMIT 1
+    </select>
+
+    <!-- 移除家庭所有成员（软删除） -->
+    <update id="removeAllByFamilyId">
+        UPDATE family_member
+        SET status = 0
+        WHERE family_id = #{familyId}
+    </update>
+
+    <!-- 插入成员 -->
+    <insert id="insert" parameterType="com.healthy.entity.FamilyMember" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO family_member (family_id, user_id, role, relation, joined_at, status)
+        VALUES (#{familyId}, #{userId}, #{role}, #{relation}, #{joinedAt}, #{status})
+    </insert>
+
+    <!-- 根据ID更新 -->
+    <update id="updateById" parameterType="com.healthy.entity.FamilyMember">
+        UPDATE family_member
+        SET role        = #{role},
+            relation    = #{relation},
+            status      = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM family_member WHERE id = #{id}
+    </select>
+
+    <!-- 根据家庭ID和用户ID查询 -->
+    <select id="selectByFamilyAndUser" resultMap="BaseResultMap">
+        SELECT * FROM family_member
+        WHERE family_id = #{familyId} AND user_id = #{userId}
+    </select>
+
+    <select id="selectCountByFamilyId" resultType="Long">
+        SELECT COUNT(*) FROM family_member WHERE family_id = #{familyId} AND status = 1
+    </select>
+
+    <select id="selectParentsByFamilyId" resultMap="BaseResultMap">
+        SELECT * FROM family_member WHERE family_id = #{familyId} AND role = 'PARENT' AND status = 1
+    </select>
+</mapper>

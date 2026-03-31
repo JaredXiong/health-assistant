@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.healthy.mapper.UserMedicineMapper">
+
+    <resultMap id="BaseResultMap" type="com.healthy.entity.UserMedicine">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="medicineId" column="medicine_id"/>
+        <result property="status" column="status"/>
+        <result property="dosagePerTime" column="dosage_per_time"/>
+        <result property="frequency" column="frequency"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="reminderEnabled" column="reminder_enabled"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.healthy.entity.UserMedicine" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_medicine (
+            user_id, medicine_id, status, dosage_per_time, frequency,
+            start_date, end_date, reminder_enabled
+        ) VALUES (
+                     #{userId}, #{medicineId}, #{status}, #{dosagePerTime}, #{frequency},
+                     #{startDate}, #{endDate}, #{reminderEnabled}
+                 )
+    </insert>
+
+    <update id="update" parameterType="com.healthy.entity.UserMedicine">
+        UPDATE user_medicine
+        SET
+            status = #{status},
+            dosage_per_time = #{dosagePerTime},
+            frequency = #{frequency},
+            start_date = #{startDate},
+            end_date = #{endDate},
+            reminder_enabled = #{reminderEnabled}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM user_medicine WHERE id = #{id}
+    </select>
+
+    <select id="selectByUserAndMedicine" resultMap="BaseResultMap">
+        SELECT * FROM user_medicine
+        WHERE user_id = #{userId} AND medicine_id = #{medicineId}
+            LIMIT 1
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT * FROM user_medicine
+        WHERE user_id = #{userId}
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY update_time DESC
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM user_medicine WHERE id = #{id}
+    </delete>
+
+</mapper>

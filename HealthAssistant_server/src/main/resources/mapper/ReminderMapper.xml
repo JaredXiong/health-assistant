@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.healthy.mapper.ReminderMapper">
+
+    <resultMap id="BaseResultMap" type="com.healthy.entity.Reminder">
+        <id property="id" column="id"/>
+        <result property="openid" column="openid"/>
+        <result property="medicineName" column="medicine_name"/>
+        <result property="dosage" column="dosage"/>
+        <result property="reminderTime" column="reminder_time"/>
+        <result property="daysOfWeek" column="days_of_week"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="status" column="status"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.healthy.entity.Reminder" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO reminder (
+            user_medicine_id, dosage, reminder_time,
+            days_of_week, start_date, end_date, status
+        ) VALUES (
+                     #{userMedicineId}, #{dosage}, #{reminderTime},
+                     #{daysOfWeek}, #{startDate}, #{endDate}, #{status}
+                 )
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE reminder SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <select id="selectToBePushed" resultMap="BaseResultMap">
+        SELECT r.*, u.openid
+        FROM reminder r
+                 INNER JOIN user_medicine um ON r.user_medicine_id = um.id
+                 INNER JOIN users u ON um.user_id = u.id
+        WHERE r.status = 0
+          AND r.reminder_time = #{currentTime}
+          AND r.start_date &lt;= CURDATE()
+          AND r.end_date &gt;= CURDATE()
+          AND FIND_IN_SET(#{todayWeek}, r.days_of_week)
+    </select>
+
+    <select id="selectTodayReminders" resultMap="BaseResultMap">
+        SELECT * FROM reminder
+        WHERE openid = #{openid}
+        AND status IN (0, 1)   <!-- 0-待推送，1-已推送（已推送的也显示） -->
+        AND start_date &lt;= #{todayDate}
+        AND end_date &gt;= #{todayDate}
+        AND FIND_IN_SET(#{todayWeek}, days_of_week)
+        ORDER BY reminder_time
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM reminder WHERE id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.healthy.entity.Reminder">
+        UPDATE reminder
+        SET
+            dosage = #{dosage},
+            reminder_time = #{reminderTime},
+            days_of_week = #{daysOfWeek},
+            start_date = #{startDate},
+            end_date = #{endDate},
+            status = 0
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectValidReminders" resultMap="BaseResultMap">
+        SELECT * FROM reminder
+        WHERE openid = #{openid}
+        AND status IN (0, 1)          <!-- 0-待推送，1-已推送（未取消） -->
+        AND end_date >= #{today}       <!-- 未过期 -->
+        ORDER BY start_date, reminder_time
+    </select>
+
+    <select id="selectByUserMedicineId" resultMap="BaseResultMap">
+        SELECT * FROM reminder WHERE user_medicine_id = #{userMedicineId}
+    </select>
+
+    <!-- 根据用户ID查询今日提醒 -->
+    <select id="selectTodayRemindersByUserId" resultMap="BaseResultMap">
+        SELECT r.*, u.openid, mi.name AS medicine_name
+        FROM reminder r
+                 INNER JOIN user_medicine um ON r.user_medicine_id = um.id
+                 INNER JOIN users u ON um.user_id = u.id
+                 INNER JOIN medicine_info mi ON um.medicine_id = mi.id
+        WHERE um.user_id = #{userId}
+          AND r.status IN (0, 1)
+          AND r.start_date &lt;= CURDATE()
+          AND r.end_date &gt;= CURDATE()
+          AND FIND_IN_SET(WEEKDAY(CURDATE()) + 1, r.days_of_week)
+        ORDER BY r.reminder_time
+    </select>
+
+    <!-- 根据用户ID查询所有有效提醒 -->
+    <select id="selectValidRemindersByUserId" resultMap="BaseResultMap">
+        SELECT r.*, u.openid, mi.name AS medicine_name
+        FROM reminder r
+                 INNER JOIN user_medicine um ON r.user_medicine_id = um.id
+                 INNER JOIN users u ON um.user_id = u.id
+                 INNER JOIN medicine_info mi ON um.medicine_id = mi.id
+        WHERE um.user_id = #{userId}
+          AND r.status IN (0, 1)
+          AND r.end_date &gt;= CURDATE()
+        ORDER BY r.start_date, r.reminder_time
+    </select>
+</mapper>

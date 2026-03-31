@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.healthy.mapper.FamilyMapper">
+
+    <!-- 实体映射 -->
+    <resultMap id="BaseResultMap" type="com.healthy.entity.Family">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="inviteCode" column="invite_code"/>
+        <result property="inviteCodeExpire" column="invite_code_expire"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <!-- 根据用户ID查询家庭信息（通过家庭成员表关联） -->
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT f.*
+        FROM family f
+                 INNER JOIN family_member fm ON f.id = fm.family_id
+        WHERE fm.user_id = #{userId}
+          AND fm.status = 1
+    </select>
+
+    <!-- 插入家庭（自动生成主键） -->
+    <insert id="insert" parameterType="com.healthy.entity.Family" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO family (name, invite_code, invite_code_expire, created_by, created_at, updated_at)
+        VALUES (#{name}, #{inviteCode}, #{inviteCodeExpire}, #{createdBy}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM family WHERE id = #{id}
+    </select>
+
+    <select id="selectByInviteCode" resultMap="BaseResultMap">
+        SELECT * FROM family WHERE invite_code = #{inviteCode}
+    </select>
+
+</mapper>

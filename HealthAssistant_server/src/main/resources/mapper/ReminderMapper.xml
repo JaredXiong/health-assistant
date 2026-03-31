@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 提醒Mapper配置文件 -->
 <mapper namespace="com.healthy.mapper.ReminderMapper">
 
+    <!-- 基础结果映射 -->
     <resultMap id="BaseResultMap" type="com.healthy.entity.Reminder">
         <id property="id" column="id"/>
         <result property="openid" column="openid"/>
@@ -17,6 +19,7 @@
         <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
+    <!-- 插入提醒记录 -->
     <insert id="insert" parameterType="com.healthy.entity.Reminder" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO reminder (
             user_medicine_id, dosage, reminder_time,
@@ -27,10 +30,12 @@
                  )
     </insert>
 
+    <!-- 更新提醒状态 -->
     <update id="updateStatus">
         UPDATE reminder SET status = #{status} WHERE id = #{id}
     </update>
 
+    <!-- 查询待推送的提醒 -->
     <select id="selectToBePushed" resultMap="BaseResultMap">
         SELECT r.*, u.openid
         FROM reminder r
@@ -43,20 +48,26 @@
           AND FIND_IN_SET(#{todayWeek}, r.days_of_week)
     </select>
 
+    <!-- 根据openid查询今日有效提醒 -->
     <select id="selectTodayReminders" resultMap="BaseResultMap">
-        SELECT * FROM reminder
-        WHERE openid = #{openid}
-        AND status IN (0, 1)   <!-- 0-待推送，1-已推送（已推送的也显示） -->
-        AND start_date &lt;= #{todayDate}
-        AND end_date &gt;= #{todayDate}
-        AND FIND_IN_SET(#{todayWeek}, days_of_week)
-        ORDER BY reminder_time
+        SELECT r.*, u.openid
+        FROM reminder r
+                 INNER JOIN user_medicine um ON r.user_medicine_id = um.id
+                 INNER JOIN users u ON um.user_id = u.id
+        WHERE u.openid = #{openid}
+        AND r.status IN (0, 1)   <!-- 0-待推送，1-已推送（已推送的也显示） -->
+        AND r.start_date &lt;= #{todayDate}
+        AND r.end_date &gt;= #{todayDate}
+        AND FIND_IN_SET(#{todayWeek}, r.days_of_week)
+        ORDER BY r.reminder_time
     </select>
 
+    <!-- 根据ID查询提醒 -->
     <select id="selectById" resultMap="BaseResultMap">
         SELECT * FROM reminder WHERE id = #{id}
     </select>
 
+    <!-- 更新提醒信息 -->
     <update id="update" parameterType="com.healthy.entity.Reminder">
         UPDATE reminder
         SET
@@ -69,14 +80,20 @@
         WHERE id = #{id}
     </update>
 
+    <!-- 查询未过期的有效提醒 -->
     <select id="selectValidReminders" resultMap="BaseResultMap">
-        SELECT * FROM reminder
-        WHERE openid = #{openid}
-        AND status IN (0, 1)          <!-- 0-待推送，1-已推送（未取消） -->
-        AND end_date >= #{today}       <!-- 未过期 -->
-        ORDER BY start_date, reminder_time
+        SELECT r.*, u.openid, mi.name AS medicine_name
+        FROM reminder r
+                 INNER JOIN user_medicine um ON r.user_medicine_id = um.id
+                 INNER JOIN users u ON um.user_id = u.id
+                 INNER JOIN medicine_info mi ON um.medicine_id = mi.id
+        WHERE u.openid = #{openid}
+        AND r.status IN (0, 1)          <!-- 0-待推送，1-已推送（未取消） -->
+        AND r.end_date >= #{today}       <!-- 未过期 -->
+        ORDER BY r.start_date, r.reminder_time
     </select>
 
+    <!-- 根据用户药品ID查询提醒 -->
     <select id="selectByUserMedicineId" resultMap="BaseResultMap">
         SELECT * FROM reminder WHERE user_medicine_id = #{userMedicineId}
     </select>
@@ -108,4 +125,5 @@
           AND r.end_date &gt;= CURDATE()
         ORDER BY r.start_date, r.reminder_time
     </select>
+
 </mapper>

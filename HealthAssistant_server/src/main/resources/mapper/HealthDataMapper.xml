@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 健康数据Mapper配置文件 -->
 <mapper namespace="com.healthy.mapper.HealthDataMapper">
 
+    <!-- 健康数据结果映射 -->
     <resultMap id="HealthDataResultMap" type="com.healthy.entity.HealthData">
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
@@ -17,6 +19,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <!-- 插入健康数据记录 -->
     <insert id="insert" parameterType="com.healthy.entity.HealthData"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO health_data (
@@ -30,10 +33,12 @@
                  )
     </insert>
 
+    <!-- 根据ID查询健康数据 -->
     <select id="selectById" resultMap="HealthDataResultMap">
         SELECT * FROM health_data WHERE id = #{id}
     </select>
 
+    <!-- 根据用户ID查询健康数据 -->
     <select id="selectByUserId" resultMap="HealthDataResultMap">
         SELECT * FROM health_data
         WHERE user_id = #{userId}
@@ -46,6 +51,7 @@
         ORDER BY measurement_time DESC
     </select>
 
+    <!-- 查询用户最新健康数据 -->
     <select id="selectLatestByUserId" resultMap="HealthDataResultMap">
         SELECT * FROM health_data
         WHERE user_id = #{userId}
@@ -53,7 +59,7 @@
             LIMIT 1
     </select>
 
-    <!-- 分页查询 -->
+    <!-- 分页查询健康数据 -->
     <select id="selectByUserIdWithPage" resultMap="HealthDataResultMap">
         SELECT * FROM health_data
         WHERE user_id = #{userId}
@@ -70,7 +76,7 @@
         LIMIT #{offset}, #{limit}
     </select>
 
-    <!-- 统计总数 -->
+    <!-- 统计健康数据总数 -->
     <select id="countByUserId" resultType="long">
         SELECT COUNT(*) FROM health_data
         WHERE user_id = #{userId}
@@ -85,10 +91,13 @@
         </if>
     </select>
 
+    <!-- 根据时间范围查询健康数据 -->
     <select id="selectByUserIdWithRange" resultMap="HealthDataResultMap">
-        SELECT * FROM health_data
+        SELECT *
+        FROM health_data
         WHERE user_id = #{userId}
           AND measurement_time BETWEEN #{startTime} AND #{endTime}
-        ORDER BY measurement_time ASC
+        ORDER BY measurement_time
     </select>
+
 </mapper>

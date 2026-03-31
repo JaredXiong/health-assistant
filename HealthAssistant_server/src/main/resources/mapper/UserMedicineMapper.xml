@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 用户药品Mapper配置文件 -->
 <mapper namespace="com.healthy.mapper.UserMedicineMapper">
 
+    <!-- 基础结果映射 -->
     <resultMap id="BaseResultMap" type="com.healthy.entity.UserMedicine">
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
@@ -17,6 +19,7 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
+    <!-- 插入用户药品记录 -->
     <insert id="insert" parameterType="com.healthy.entity.UserMedicine" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user_medicine (
             user_id, medicine_id, status, dosage_per_time, frequency,
@@ -27,6 +30,7 @@
                  )
     </insert>
 
+    <!-- 更新用户药品信息 -->
     <update id="update" parameterType="com.healthy.entity.UserMedicine">
         UPDATE user_medicine
         SET
@@ -39,16 +43,19 @@
         WHERE id = #{id}
     </update>
 
+    <!-- 根据ID查询用户药品 -->
     <select id="selectById" resultMap="BaseResultMap">
         SELECT * FROM user_medicine WHERE id = #{id}
     </select>
 
+    <!-- 根据用户ID和药品ID查询 -->
     <select id="selectByUserAndMedicine" resultMap="BaseResultMap">
         SELECT * FROM user_medicine
         WHERE user_id = #{userId} AND medicine_id = #{medicineId}
             LIMIT 1
     </select>
 
+    <!-- 根据用户ID查询药品列表 -->
     <select id="selectByUserId" resultMap="BaseResultMap">
         SELECT * FROM user_medicine
         WHERE user_id = #{userId}
@@ -58,6 +65,7 @@
         ORDER BY update_time DESC
     </select>
 
+    <!-- 根据ID删除用户药品 -->
     <delete id="deleteById">
         DELETE FROM user_medicine WHERE id = #{id}
     </delete>

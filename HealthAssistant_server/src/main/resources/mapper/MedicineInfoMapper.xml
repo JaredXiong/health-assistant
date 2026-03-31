@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 药品信息Mapper配置文件 -->
 <mapper namespace="com.healthy.mapper.MedicineInfoMapper">
 
+    <!-- 基础结果映射 -->
     <resultMap id="BaseResultMap" type="com.healthy.entity.MedicineInfo">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
@@ -15,6 +17,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <!-- 插入药品信息记录 -->
     <insert id="insert" parameterType="com.healthy.entity.MedicineInfo" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO medicine_info (
             name, specification, manufacturer, approval_number, usage_dosage,
@@ -25,10 +28,12 @@
                  )
     </insert>
 
+    <!-- 根据ID查询药品信息 -->
     <select id="selectById" resultMap="BaseResultMap">
         SELECT * FROM medicine_info WHERE id = #{id}
     </select>
 
+    <!-- 根据药品名称和批准号查询 -->
     <select id="selectByNameAndApproval" resultMap="BaseResultMap">
         SELECT * FROM medicine_info
         WHERE name = #{name} AND approval_number = #{approvalNumber}

@@ -6,6 +6,19 @@
     <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/java/com/healthy/mapper/FamilyMapper.java" value="2c77b377-946a-4855-a9ad-937d0316629d" />
     <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/java/com/healthy/mapper/FamilyMemberMapper.java" value="2c77b377-946a-4855-a9ad-937d0316629d" />
     <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/java/com/healthy/mapper/PrescriptionItemMapper.java" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/ConversationMaooer.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/DataAuthorizationMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/FamilyMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/FamilyMemberMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/HealthDataMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/HealthReportMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/MedicineImageRecordMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/MedicineInfoMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/PrescriptionItemMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/PrescriptionRecordMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/ReminderMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/UserMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
+    <file url="file://$PROJECT_DIR$/HealthAssistant_server/src/main/resources/mapper/UserMedicineMapper.xml" value="2c77b377-946a-4855-a9ad-937d0316629d" />
     <file url="file://$PROJECT_DIR$/addDate.sql" value="2c77b377-946a-4855-a9ad-937d0316629d" />
   </component>
 </project>

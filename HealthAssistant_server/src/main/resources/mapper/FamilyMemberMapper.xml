@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 家庭成员Mapper配置文件 -->
 <mapper namespace="com.healthy.mapper.FamilyMemberMapper">
 
+    <!-- 基础结果映射 -->
     <resultMap id="BaseResultMap" type="com.healthy.entity.FamilyMember">
         <id property="id" column="id"/>
         <result property="familyId" column="family_id"/>
@@ -35,13 +37,23 @@
         WHERE family_id = #{familyId}
     </update>
 
-    <!-- 插入成员 -->
+    <!-- 统计家庭活跃成员数量 -->
+    <select id="selectCountByFamilyId" resultType="Long">
+        SELECT COUNT(*) FROM family_member WHERE family_id = #{familyId} AND status = 1
+    </select>
+
+    <!-- 查询家庭中的父母角色成员 -->
+    <select id="selectParentsByFamilyId" resultMap="BaseResultMap">
+        SELECT * FROM family_member WHERE family_id = #{familyId} AND role = 'PARENT' AND status = 1
+    </select>
+
+    <!-- 插入家庭成员记录 -->
     <insert id="insert" parameterType="com.healthy.entity.FamilyMember" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO family_member (family_id, user_id, role, relation, joined_at, status)
         VALUES (#{familyId}, #{userId}, #{role}, #{relation}, #{joinedAt}, #{status})
     </insert>
 
-    <!-- 根据ID更新 -->
+    <!-- 根据ID更新家庭成员信息 -->
     <update id="updateById" parameterType="com.healthy.entity.FamilyMember">
         UPDATE family_member
         SET role        = #{role},
@@ -50,22 +62,9 @@
         WHERE id = #{id}
     </update>
 
-    <!-- 根据ID查询 -->
+    <!-- 根据ID查询家庭成员信息 -->
     <select id="selectById" resultMap="BaseResultMap">
         SELECT * FROM family_member WHERE id = #{id}
     </select>
 
-    <!-- 根据家庭ID和用户ID查询 -->
-    <select id="selectByFamilyAndUser" resultMap="BaseResultMap">
-        SELECT * FROM family_member
-        WHERE family_id = #{familyId} AND user_id = #{userId}
-    </select>
-
-    <select id="selectCountByFamilyId" resultType="Long">
-        SELECT COUNT(*) FROM family_member WHERE family_id = #{familyId} AND status = 1
-    </select>
-
-    <select id="selectParentsByFamilyId" resultMap="BaseResultMap">
-        SELECT * FROM family_member WHERE family_id = #{familyId} AND role = 'PARENT' AND status = 1
-    </select>
 </mapper>

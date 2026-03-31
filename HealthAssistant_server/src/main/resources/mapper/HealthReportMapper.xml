@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 健康报告Mapper配置文件 -->
 <mapper namespace="com.healthy.mapper.HealthReportMapper">
 
+    <!-- 健康报告结果映射 -->
     <resultMap id="HealthReportResultMap" type="com.healthy.entity.HealthReport">
-        <!-- 原有字段 -->
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="healthDataId" column="health_data_id"/>
@@ -14,7 +15,6 @@
         <result property="bloodSugarEval" column="blood_sugar_eval"/>
         <result property="heartRateEval" column="heart_rate_eval"/>
         <result property="bloodOxygenEval" column="blood_oxygen_eval"/>
-        <!-- 新增字段 -->
         <result property="bodyTemperatureEval" column="body_temperature_eval"/>
         <result property="respiratoryRateEval" column="respiratory_rate_eval"/>
         <result property="riskFactors" column="risk_factors"/>
@@ -23,25 +23,28 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <!-- 插入健康报告记录 -->
     <insert id="insert" parameterType="com.healthy.entity.HealthReport"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO health_report (
-        user_id, health_data_id, overall_score, health_level,
-        blood_pressure_eval, blood_sugar_eval, heart_rate_eval, blood_oxygen_eval,
-        body_temperature_eval, respiratory_rate_eval,   <!-- 新增字段 -->
-        risk_factors, recommendations, generate_time
+            user_id, health_data_id, overall_score, health_level,
+            blood_pressure_eval, blood_sugar_eval, heart_rate_eval, blood_oxygen_eval,
+            body_temperature_eval, respiratory_rate_eval,
+            risk_factors, recommendations, generate_time
         ) VALUES (
-        #{userId}, #{healthDataId}, #{overallScore}, #{healthLevel},
-        #{bloodPressureEval}, #{bloodSugarEval}, #{heartRateEval}, #{bloodOxygenEval},
-        #{bodyTemperatureEval}, #{respiratoryRateEval},   <!-- 新增字段占位符 -->
-        #{riskFactors}, #{recommendations}, #{generateTime}
+            #{userId}, #{healthDataId}, #{overallScore}, #{healthLevel},
+            #{bloodPressureEval}, #{bloodSugarEval}, #{heartRateEval}, #{bloodOxygenEval},
+            #{bodyTemperatureEval}, #{respiratoryRateEval},
+            #{riskFactors}, #{recommendations}, #{generateTime}
         )
     </insert>
 
+    <!-- 根据ID查询健康报告 -->
     <select id="selectById" resultMap="HealthReportResultMap">
         SELECT * FROM health_report WHERE id = #{id}
     </select>
 
+    <!-- 根据用户ID查询健康报告 -->
     <select id="selectByUserId" resultMap="HealthReportResultMap">
         SELECT * FROM health_report
         WHERE user_id = #{userId}
@@ -54,6 +57,7 @@
         ORDER BY generate_time DESC
     </select>
 
+    <!-- 查询用户最新健康报告 -->
     <select id="selectLatestByUserId" resultMap="HealthReportResultMap">
         SELECT * FROM health_report
         WHERE user_id = #{userId}

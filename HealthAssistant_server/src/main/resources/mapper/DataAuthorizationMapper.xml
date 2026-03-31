@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 数据授权Mapper配置文件 -->
 <mapper namespace="com.healthy.mapper.DataAuthorizationMapper">
 
+    <!-- 基础结果映射 -->
     <resultMap id="BaseResultMap" type="com.healthy.entity.DataAuthorization">
         <id property="id" column="id"/>
         <result property="familyId" column="family_id"/>
@@ -14,7 +16,7 @@
         <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
-    <!-- 根据授权者和被授权者查询 -->
+    <!-- 根据授权者和被授权者查询最新授权 -->
     <select id="selectByGrantorAndGrantee" resultMap="BaseResultMap">
         SELECT * FROM data_authorization
         WHERE grantor_id = #{grantorId}
@@ -37,13 +39,18 @@
           AND (expire_time IS NULL OR expire_time > NOW())
     </select>
 
-    <!-- 插入授权 -->
+    <!-- 根据被授权者ID查询所有授权 -->
+    <select id="selectByGranteeId" resultMap="BaseResultMap">
+        SELECT * FROM data_authorization WHERE grantee_id = #{granteeId}
+    </select>
+
+    <!-- 插入授权记录 -->
     <insert id="insert" parameterType="com.healthy.entity.DataAuthorization" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO data_authorization (family_id, grantor_id, grantee_id, data_types, expire_time, created_at, updated_at)
         VALUES (#{familyId}, #{grantorId}, #{granteeId}, #{dataTypes, typeHandler=com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler}, #{expireTime}, #{createdAt}, #{updatedAt})
     </insert>
 
-    <!-- 更新授权 -->
+    <!-- 更新授权记录 -->
     <update id="updateById" parameterType="com.healthy.entity.DataAuthorization">
         UPDATE data_authorization
         SET data_types = #{dataTypes, typeHandler=com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler},
@@ -52,12 +59,9 @@
         WHERE id = #{id}
     </update>
 
-    <!-- 根据ID查询 -->
+    <!-- 根据ID查询授权记录 -->
     <select id="selectById" resultMap="BaseResultMap">
         SELECT * FROM data_authorization WHERE id = #{id}
     </select>
 
-    <select id="selectByGranteeId" resultMap="BaseResultMap">
-        SELECT * FROM data_authorization WHERE grantee_id = #{granteeId}
-    </select>
 </mapper>

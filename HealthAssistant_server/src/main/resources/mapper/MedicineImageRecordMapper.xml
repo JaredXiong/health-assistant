@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 药品图像记录Mapper配置文件 -->
 <mapper namespace="com.healthy.mapper.MedicineImageRecordMapper">
 
+    <!-- 基础结果映射 -->
     <resultMap id="BaseResultMap" type="com.healthy.entity.MedicineImageRecord">
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
@@ -15,6 +17,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <!-- 插入药品图像记录 -->
     <insert id="insert" parameterType="com.healthy.entity.MedicineImageRecord" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO medicine_image_record (
             user_id, image_url, ocr_raw_result, parsed_info, status,
@@ -25,6 +28,7 @@
                  )
     </insert>
 
+    <!-- 更新药品图像记录 -->
     <update id="update" parameterType="com.healthy.entity.MedicineImageRecord">
         UPDATE medicine_image_record
         SET
@@ -39,6 +43,7 @@
         WHERE id = #{id}
     </update>
 
+    <!-- 根据ID查询药品图像记录 -->
     <select id="selectById" resultMap="BaseResultMap">
         SELECT * FROM medicine_image_record WHERE id = #{id}
     </select>

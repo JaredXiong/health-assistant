@@ -152,17 +152,6 @@ HealthAssistant (父模块)
 └── HealthAssistant_server    # 主服务模块
 ```
 
-### 模块依赖关系
-
-```
-HealthAssistant_server
-    ├── 依赖 → HealthAssistant_pojo
-    └── 依赖 → HealthAssistant_common
-
-HealthAssistant_common
-    └── 依赖 → HealthAssistant_pojo
-```
-
 ### 分层架构
 
 ```
@@ -178,7 +167,7 @@ MySQL 数据库
 ### 完整项目目录树
 
 ```
-HealthAssistant/
+HealthAssistant/                              # 项目根目录
 ├── pom.xml                                    # 父POM文件，统一管理依赖版本
 ├── README.md                                  # 项目文档
 ├── HealthAssistant_common/                    # 公共工具模块
@@ -197,12 +186,13 @@ HealthAssistant/
 │       │   └── JacksonObjectMapper.java      # Jackson JSON配置
 │       ├── properties/                        # 配置属性类
 │       │   ├── AliOssProperties.java          # 阿里云OSS配置属性
+│       │   ├── DeepSeekProperties.java        # DeepSeek AI配置属性
 │       │   ├── JwtProperties.java             # JWT配置属性
 │       │   ├── OcrProperties.java             # OCR配置属性
 │       │   └── WeChatProperties.java          # 微信配置属性
 │       ├── result/                            # 统一响应结果
-│       │   ├── Result.java                    # 通用响应结果封装
-│       │   └── PageResult.java                # 分页响应结果
+│       │   ├── PageResult.java                # 分页响应结果
+│       │   └── Result.java                    # 通用响应结果封装
 │       └── utils/                             # 工具类
 │           ├── AliOssUtil.java                 # 阿里云OSS工具类
 │           ├── HttpClientUtil.java            # HTTP客户端工具类
@@ -273,8 +263,8 @@ HealthAssistant/
     │   ├── SmartServerApplication.java       # Spring Boot启动类
     │   ├── config/                            # 配置类
     │   │   ├── AsyncConfig.java              # 异步任务配置
+    │   │   ├── MyBatisPlusConfig.java        # MyBatis Plus配置
     │   │   ├── MyMetaObjectHandler.java      # MyBatis Plus元数据处理器
-    │   │   ├── MybatisPlusConfig.java        # MyBatis Plus配置
     │   │   ├── OssConfiguration.java         # 阿里云OSS配置
     │   │   ├── RedisConfiguration.java       # Redis配置
     │   │   ├── RestTemplateConfig.java       # RestTemplate配置
@@ -327,6 +317,7 @@ HealthAssistant/
     │   │   ├── UserService.java               # 用户服务接口
     │   │   └── WechatService.java            # 微信服务接口
     │   ├── service/impl/                      # 服务层实现
+    │   │   ├── AIGenerationServiceImpl.java  # AI生成服务实现
     │   │   ├── AiChatServiceImpl.java        # AI聊天服务实现
     │   │   ├── AsyncReportServiceImpl.java   # 异步报告服务实现
     │   │   ├── AuthorizationServiceImpl.java # 授权服务实现
@@ -350,6 +341,7 @@ HealthAssistant/
     │   ├── application-dev.yml               # 开发环境配置
     │   ├── application-dev.yml.example        # 开发环境配置示例
     │   └── mapper/                            # MyBatis XML映射文件
+    │       ├── ConversationMaooer.xml        # 对话记录映射
     │       ├── DataAuthorizationMapper.xml   # 数据授权映射
     │       ├── FamilyMapper.xml               # 家庭映射
     │       ├── FamilyMemberMapper.xml        # 家庭成员映射
@@ -367,22 +359,6 @@ HealthAssistant/
 ```
 
 ### 目录结构详细说明
-
-#### 📁 HealthAssistant_pojo（数据对象模块）
-
-**模块职责**：定义所有数据传输对象、数据库实体类、视图对象和配置属性类，是整个项目的数据模型层。
-
-**主要包说明**：
-- **dto/**：数据传输对象，用于接收前端请求参数和返回响应数据，实现前后端数据交互
-- **entity/**：数据库实体类，对应数据库表结构，使用MyBatis Plus注解映射
-- **vo/**：视图对象，用于封装返回给前端的业务数据，可包含多个实体数据的组合
-- **properties/**：配置属性类，用于绑定配置文件中的配置项
-
-**核心实体类**：
-- [Users.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_pojo/src/main/java/com/healthy/entity/Users.java)：用户实体，包含微信openid、姓名、手机号、昵称、头像等信息
-- [Family.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_pojo/src/main/java/com/healthy/entity/Family.java)：家庭实体，包含家庭名称、邀请码、创建时间等信息
-- [HealthData.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_pojo/src/main/java/com/healthy/entity/HealthData.java)：健康数据实体，包含心率、血压、血氧、血糖、体温等健康指标
-- [MedicineInfo.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_pojo/src/main/java/com/healthy/entity/MedicineInfo.java)：药品信息实体，包含药品名称、规格、生产厂家、批准文号、用法用量、成份、功能主治等
 
 #### 📁 HealthAssistant_common（公共工具模块）
 
@@ -403,7 +379,56 @@ HealthAssistant/
 - [AliOssUtil.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_common/src/main/java/com/healthy/utils/AliOssUtil.java)：阿里云OSS文件上传下载工具
 - [Result.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_common/src/main/java/com/healthy/result/Result.java)：统一响应结果封装，code=1表示成功，code=0表示失败
 
+#### 📁 HealthAssistant_pojo（数据对象模块）
+
+**模块职责**：定义所有数据传输对象、数据库实体类、视图对象和配置属性类，是整个项目的数据模型层。
+
+**主要包说明**：
+- **dto/**：数据传输对象，用于接收前端请求参数和返回响应数据，实现前后端数据交互
+- **entity/**：数据库实体类，对应数据库表结构，使用MyBatis Plus注解映射
+- **vo/**：视图对象，用于封装返回给前端的业务数据，可包含多个实体数据的组合
+- **properties/**：配置属性类，用于绑定配置文件中的配置项
+
+**核心实体类**：
+- [Users.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_pojo/src/main/java/com/healthy/entity/Users.java)：用户实体，包含微信openid、姓名、手机号、昵称、头像等信息
+- [Family.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_pojo/src/main/java/com/healthy/entity/Family.java)：家庭实体，包含家庭名称、邀请码、创建时间等信息
+- [HealthData.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_pojo/src/main/java/com/healthy/entity/HealthData.java)：健康数据实体，包含心率、血压、血氧、血糖、体温等健康指标
+- [MedicineInfo.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_pojo/src/main/java/com/healthy/entity/MedicineInfo.java)：药品信息实体，包含药品名称、规格、生产厂家、批准文号、用法用量、成份、功能主治等
+
 #### 📁 HealthAssistant_server（主服务模块）
+
+**模块职责**：项目的核心服务模块，包含控制器、服务层、数据访问层等，提供完整的业务逻辑处理和API接口。
+
+**主要包说明**：
+- **config/**：配置类，包含Spring Boot的各种配置，如异步任务、MyBatis Plus、OSS、Redis等
+- **controller/**：控制器层，接收前端请求，处理业务逻辑，返回响应数据
+- **handler/**：异常处理器，统一处理系统中的异常
+- **interceptor/**：拦截器，用于JWT令牌验证等
+- **mapper/**：数据访问层，使用MyBatis Plus进行数据库操作
+- **security/**：安全控制，处理家庭相关的安全验证
+- **service/**：服务层接口和实现，处理业务逻辑
+- **task/**：定时任务，处理提醒等定时任务
+
+**核心控制器**：
+- [AiController.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_server/src/main/java/com/healthy/controller/AiController.java)：AI智能助手相关接口
+- [FamilyController.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_server/src/main/java/com/healthy/controller/FamilyController.java)：家庭管理相关接口
+- [HealthController.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_server/src/main/java/com/healthy/controller/HealthController.java)：健康数据相关接口
+- [MedicineController.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_server/src/main/java/com/healthy/controller/MedicineController.java)：药品管理相关接口
+- [PrescriptionController.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_server/src/main/java/com/healthy/controller/PrescriptionController.java)：处方管理相关接口
+- [ReminderController.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_server/src/main/java/com/healthy/controller/ReminderController.java)：提醒管理相关接口
+- [UserController.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_server/src/main/java/com/healthy/controller/UserController.java)：用户管理相关接口
+- [UserMedicineController.java](file:///D:/develop/JavaIDEA/health-assistant/HealthAssistant_server/src/main/java/com/healthy/controller/UserMedicineController.java)：用户药品相关接口
+
+#### 📁 wx-health（前端微信小程序）
+
+**模块职责**：微信小程序前端项目，提供用户界面和交互功能。
+
+**主要目录**：
+- **pages/**：小程序页面
+- **components/**：小程序组件
+- **utils/**：工具类
+- **images/**：图片资源
+- **subpackages/**：分包页面
 
 **模块职责**：实现核心业务逻辑，提供REST API接口，处理HTTP请求，整合各个功能模块。
 
@@ -686,11 +711,3 @@ wechat:
 8. **缓存优化**：Redis 缓存提升性能
 9. **AI 集成**：集成 DeepSeek 和百度 AI 提供智能服务
 10. **微信集成**：支持微信小程序登录
-
-<div align="center">
-
-**感谢使用 HealthAssistant！**
-
-Made with ❤️ by HealthAssistant Team
-
-</div>

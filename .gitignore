@@ -27,3 +27,4 @@ test-results/
 *.7z
 *.tar.gz
 wx-health/
+MarsCodeWorkspaceAppSettings.xml

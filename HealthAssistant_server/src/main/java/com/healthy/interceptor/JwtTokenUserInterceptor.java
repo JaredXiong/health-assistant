@@ -28,7 +28,7 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
     /**
      * 校验jwt
      */
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         //判断当前拦截到的是Controller的方法还是其他资源
         if (!(handler instanceof HandlerMethod)) {
             //当前拦截到的不是动态方法，直接放行
@@ -77,7 +77,7 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         // 请求结束后清除 ThreadLocal 中的用户 ID，避免内存泄漏和线程复用问题
         BaseContext.removeCurrentId();
     }

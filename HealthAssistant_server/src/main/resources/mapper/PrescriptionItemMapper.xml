@@ -15,4 +15,14 @@
             LIMIT 5
     </select>
 
+    <select id="selectByRecordId" resultType="com.healthy.entity.PrescriptionItem">
+        SELECT * FROM prescription_items WHERE record_id = #{recordId}
+    </select>
+    
+    <!-- 更新用户药品ID -->
+    <update id="updateUserMedicineId">
+        UPDATE prescription_items
+        SET user_medicine_id = #{userMedicineId}
+        WHERE id = #{itemId}
+    </update>
 </mapper>

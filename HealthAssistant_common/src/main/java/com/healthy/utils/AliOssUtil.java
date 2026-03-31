@@ -23,10 +23,6 @@ public class AliOssUtil {
 
     /**
      * 文件上传
-     *
-     * @param bytes
-     * @param objectName
-     * @return
      */
     public String upload(byte[] bytes, String objectName) {
 
@@ -54,17 +50,11 @@ public class AliOssUtil {
             }
         }
 
-        //文件访问路径规则 https://BucketName.Endpoint/ObjectName
-        StringBuilder stringBuilder = new StringBuilder("https://");
-        stringBuilder
-                .append(bucketName)
-                .append(".")
-                .append(endpoint)
-                .append("/")
-                .append(objectName);
-
-        /*log.info("文件上传到:{}", stringBuilder.toString());*/
-
-        return stringBuilder.toString();
+        return "https://" +
+                bucketName +
+                "." +
+                endpoint +
+                "/" +
+                objectName;
     }
 }

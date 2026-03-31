@@ -34,7 +34,7 @@ public class OcrServiceImpl implements OcrService {
     }
 
     @Override
-    public OCRResultDTO recognizeMedicine(byte[] imageBytes, String fileName) throws IOException {
+    public OCRResultDTO recognizeMedicine(byte[] imageBytes, String fileName) {
         HashMap<String, String> options = new HashMap<>();
         options.put("language_type", "CHN_ENG");
         options.put("detect_direction", "true");
@@ -237,12 +237,12 @@ public class OcrServiceImpl implements OcrService {
     private String extractParagraph(String text, String keyword) {
         StringBuilder keywordPattern = new StringBuilder();
         for (char c : keyword.toCharArray()) {
-            if (keywordPattern.length() > 0) {
+            if (!keywordPattern.isEmpty()) {
                 keywordPattern.append("\\s*");
             }
             keywordPattern.append(Pattern.quote(String.valueOf(c)));
         }
-        String regex = "(?:【|\\[)?\\s*" + keywordPattern + "\\s*(?:】|\\])?\\s*([\\s\\S]*?)(?=(?:【|\\[)|$)";
+        String regex = "(?:【|\\[)?\\s*" + keywordPattern + "\\s*[】\\]]?\\s*([\\s\\S]*?)(?=(?:【|\\[)|$)";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(text);
         if (m.find()) {
